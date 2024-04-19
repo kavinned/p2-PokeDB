@@ -17,12 +17,12 @@ function App() {
 	}, []);
 	useEffect(() => {
 		async function fetchAllPokemonData() {
-			let pokemonData = [];
+			let allPokemonData = [];
 			for (let i = 0; i < pokemon.length; i++) {
 				const data = await fetchPokemonData(pokemon[i].url);
-				pokemonData.push(data);
+				allPokemonData.push(data);
 			}
-			setData(pokemonData);
+			setData(allPokemonData);
 		}
 		fetchAllPokemonData();
 		async function fetchPokemonData(url) {
