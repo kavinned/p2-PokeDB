@@ -2,59 +2,46 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-	const [pokemon, setPokemon] = useState([{}]);
-	const [pokemonImg, setImg] = useState("");
-	useEffect(() => {
-		async function fetchAPI() {
-			const currPokemon = "monferno";
-			const res = await fetch(
-				`https://pokeapi.co/api/v2/pokemon/${currPokemon}`
-			);
-			const data = await res.json();
-			console.log([data]);
-			setPokemon([data]);
-			setImg(data.sprites.front_default);
-		}
-		fetchAPI();
-	}, []);
-
+	const [pokemon, setPokemon] = useState([]);
+	const [pokemonData, setData] = useState([]);
 	console.log(pokemon);
-	console.log(pokemonImg);
-	// useEffect(() => {
-	// 	async function fetchAPI() {
-	// 		const res = await fetch(`https://pokeapi.co/api/v2/pokemon/`);
-	// 		const data = await res.json();
-	// 		console.log(data);
-	// 		setPokemon(data);
-	// 	}
-	// 	fetchAPI();
-	// }, []);
-	// console.log(pokemonImg);
-	// console.log(pokemon);
-
-	// return (
-	// 	<div>
-	// 		{pokemon.map((pokemon) => (
-	// 			<div key={pokemon.name}>
-	// 				<h1>{pokemon.name}</h1>
-	// 				<img src="" alt="" />
-	// 			</div>
-	// 		))}
-	// 	</div>
-	// );
+	useEffect(() => {
+		fetchPokemon();
+		async function fetchPokemon() {
+			const URL = "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20";
+			const res = await fetch(URL);
+			const data = await res.json();
+			const result = data.results;
+			setPokemon(result);
+		}
+	}, []);
+	useEffect(() => {
+		async function fetchAllPokemonData() {
+			let pokemonData = [];
+			for (let i = 0; i < pokemon.length; i++) {
+				const data = await fetchPokemonData(pokemon[i].url);
+				pokemonData.push(data);
+			}
+			setData(pokemonData);
+		}
+		fetchAllPokemonData();
+		async function fetchPokemonData(url) {
+			const res = await fetch(url);
+			const data = await res.json();
+			console.log(data);
+			return data;
+		}
+	}, [pokemon]);
 
 	return (
-		<>
-			<h1>Hello</h1>
-			<div>
-				{pokemon.map((mon) => (
-					<div key={pokemon.order}>
-						<p>{mon.name}</p>
-						<img src={pokemonImg} alt={mon.name} />
-					</div>
-				))}
-			</div>
-		</>
+		<div>
+			{pokemonData.map((pokemon) => (
+				<div key={pokemon.id}>
+					<img src={pokemon.sprites.front_default} alt={pokemon.name} />
+					<p>{pokemon.name}</p>
+				</div>
+			))}
+		</div>
 	);
 }
 
