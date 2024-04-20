@@ -4,6 +4,7 @@ import "./App.css";
 function App() {
 	const [pokemon, setPokemon] = useState([]);
 	const [pokemonData, setData] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	console.log(pokemon);
 	useEffect(() => {
@@ -13,7 +14,11 @@ function App() {
 			const res = await fetch(URL);
 			const data = await res.json();
 			const result = data.results;
-			setPokemon(result);
+			setLoading(true);
+			setTimeout(() => {
+				setPokemon(result);
+				setLoading(false);
+			}, 1000);
 		}
 	}, []);
 	useEffect(() => {
@@ -36,6 +41,11 @@ function App() {
 					<button type="button">Search</button>
 				</div>
 			</nav>
+			{loading && (
+				<div className="load-container">
+					<div className="loader"></div>
+				</div>
+			)}
 			<div className="pokecontainer">
 				{pokemonData.map((pokemon) => (
 					<div className="card" key={pokemon.id}>
