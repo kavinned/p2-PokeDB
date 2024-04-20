@@ -6,11 +6,10 @@ function App() {
 	const [pokemonData, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 
-	console.log(pokemon);
 	useEffect(() => {
 		fetchPokemon();
 		async function fetchPokemon() {
-			const URL = "https://pokeapi.co/api/v2/pokemon";
+			const URL = "https://pokeapi.co/api/v2/pokemon/?offset=20&limit=20";
 			const res = await fetch(URL);
 			const data = await res.json();
 			const result = data.results;
@@ -18,7 +17,7 @@ function App() {
 			setTimeout(() => {
 				setPokemon(result);
 				setLoading(false);
-			}, 1000);
+			}, 2000);
 		}
 	}, []);
 	useEffect(() => {
@@ -33,7 +32,7 @@ function App() {
 	}, [pokemon]);
 
 	return (
-		<>
+		<div className="container">
 			<nav>
 				<p>PokeDB</p>
 				<div className="searchfield">
@@ -41,12 +40,9 @@ function App() {
 					<button type="button">Search</button>
 				</div>
 			</nav>
-			{loading && (
-				<div className="load-container">
-					<div className="loader"></div>
-				</div>
-			)}
+
 			<div className="pokecontainer">
+				{loading && <div className="loader"></div>}
 				{pokemonData.map((pokemon) => (
 					<div className="card" key={pokemon.id}>
 						<img src={pokemon.sprites.front_default} alt={pokemon.name} />
@@ -54,7 +50,7 @@ function App() {
 					</div>
 				))}
 			</div>
-		</>
+		</div>
 	);
 }
 
