@@ -9,7 +9,7 @@ function App() {
 	useEffect(() => {
 		fetchPokemon();
 		async function fetchPokemon() {
-			const URL = "https://pokeapi.co/api/v2/pokemon/?offset=20&limit=20";
+			const URL = "https://pokeapi.co/api/v2/pokemon?limit=151&offset=0";
 			const res = await fetch(URL);
 			const data = await res.json();
 			const result = data.results;
@@ -17,7 +17,7 @@ function App() {
 			setTimeout(() => {
 				setPokemon(result);
 				setLoading(false);
-			}, 2000);
+			}, 3000);
 		}
 	}, []);
 	useEffect(() => {

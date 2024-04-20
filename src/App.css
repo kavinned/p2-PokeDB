@@ -180,9 +180,20 @@ nav p {
 	mask-size: calc(100% / 3) 100%;
 	-webkit-mask-composite: source-in;
 	mask-composite: intersect;
-	animation: l7 steps(3) 1.5s infinite;
+	animation: l7 linear 3s infinite;
 }
 @keyframes l7 {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.8);
+	}
 	to {
 		background-position: 150% 0%;
 	}
