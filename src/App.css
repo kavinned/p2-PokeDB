@@ -43,7 +43,7 @@ body {
 
 .card {
 	position: relative;
-	animation: 2s ease-in-out backwards fade-in;
+	animation: 4s backwards fade-in;
 	display: flex;
 	place-items: center;
 	flex-direction: column;
@@ -53,7 +53,7 @@ body {
 	background-color: rgba(179, 172, 172, 0.3);
 }
 
-.card:nth-child(1) {
+/* .card:nth-child(1) {
 	animation-delay: 0.1s;
 }
 .card:nth-child(2) {
@@ -112,7 +112,7 @@ body {
 }
 .card:nth-child(20) {
 	animation-delay: 0.9s;
-}
+} */
 
 nav {
 	height: 50px;
