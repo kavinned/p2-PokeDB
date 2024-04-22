@@ -26,6 +26,10 @@ root::after {
 	height: 100vh;
 }
 
+.container {
+	margin: 20px;
+}
+
 body {
 	display: flex;
 	justify-content: center;
@@ -38,12 +42,12 @@ body {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr 1fr;
-	margin-top: 10px;
+	margin-top: 50px;
 }
 
 .card {
 	position: relative;
-	animation: 4s backwards fade-in;
+	animation: 2s linear backwards fade-in;
 	display: flex;
 	place-items: center;
 	flex-direction: column;
@@ -161,4 +165,32 @@ nav p {
 	to {
 		transform: rotate(0.5turn);
 	}
+}
+
+/* .prev,
+.next,
+.count {
+	position: absolute;
+	top: 92%;
+}
+
+.prev {
+	left: 10%;
+}
+.next {
+	right: 10%;
+}
+
+.count {
+	left: calc(50% - 30px);
+} */
+
+.pagination {
+	width: auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	animation: 2s backwards fade-in;
+	animation-delay: 0.5s;
 }
