@@ -17,7 +17,7 @@ function App() {
 			setTimeout(() => {
 				setPokemon(result);
 				setLoading(false);
-			}, 3000);
+			}, 5000);
 		}
 	}, []);
 	useEffect(() => {
@@ -25,6 +25,7 @@ function App() {
 			for (let i = 0; i < pokemon.length; i++) {
 				const res = await fetch(pokemon[i].url);
 				const data = await res.json();
+				console.log(data);
 				setData((prev) => [...prev, data]);
 			}
 		}
