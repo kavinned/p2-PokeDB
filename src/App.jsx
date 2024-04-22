@@ -4,7 +4,6 @@ import "./App.css";
 function App() {
 	const [pokemon, setPokemon] = useState([]);
 	const [pokemonData, setData] = useState([]);
-	const [loading, setLoading] = useState(false);
 	const [URL, setURL] = useState(
 		"https://pokeapi.co/api/v2/pokemon?limit=9&offset=0"
 	);
@@ -21,10 +20,6 @@ function App() {
 			setPokemon(result);
 			setNext(data.next);
 			setPrev(data.previous);
-			setLoading(true);
-			setTimeout(() => {
-				setLoading(false);
-			}, 3000);
 		}
 	}, [URL]);
 	useEffect(() => {
@@ -52,6 +47,7 @@ function App() {
 		setCount(count - 1);
 	};
 
+	console.log(pokemonData.length);
 	return (
 		<div className="container">
 			<nav>
@@ -65,26 +61,33 @@ function App() {
 			</nav>
 
 			<div className="pokecontainer">
-				{loading && (
+				{pokemonData.length < 9 && (
 					<div className="loader-container">
 						<div className="loader"></div>
 					</div>
 				)}
-				{!loading &&
+				{pokemonData.length > 8 &&
 					pokemonData.map((pokemon) => (
 						<div className="card" key={pokemon.id}>
-							<img
-								src={pokemon.sprites.front_default}
-								alt={pokemon.name}
-								loading="lazy"
-							/>
-							<p>
-								{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
-							</p>
+							{pokemon ? (
+								<>
+									<img
+										src={pokemon.sprites.front_default}
+										alt={pokemon.name}
+										loading="lazy"
+									/>
+									<p>
+										{pokemon.name.charAt(0).toUpperCase() +
+											pokemon.name.slice(1)}
+									</p>
+								</>
+							) : (
+								<p>Loading...</p> // Display loading text if pokemon data is not available
+							)}
 						</div>
 					))}
 			</div>
-			{!loading && pokemonData.length > 0 && (
+			{pokemonData.length > 8 && (
 				<div className="pagination">
 					<button className="prev" onClick={prevPage}>
 						Previous Page

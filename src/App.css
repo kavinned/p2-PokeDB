@@ -156,7 +156,7 @@ nav {
 	justify-content: space-between;
 	align-items: center;
 	animation: 1s ease-in-out backwards fade-in-down;
-	animation-delay: 3s;
+	animation-delay: 1s;
 }
 
 nav p {
@@ -206,7 +206,7 @@ nav p {
 	justify-content: space-between;
 	align-items: center;
 	animation: 1s ease-in-out backwards fade-in-up;
-	animation-delay: 0.5s;
+	animation-delay: 1s;
 }
 
 a,
