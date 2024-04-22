@@ -6,7 +6,7 @@ function App() {
 	const [pokemonData, setData] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [URL, setURL] = useState(
-		"https://pokeapi.co/api/v2/pokemon?limit=20&offset=0"
+		"https://pokeapi.co/api/v2/pokemon?limit=9&offset=0"
 	);
 	const [prevURL, setPrev] = useState("");
 	const [nextURL, setNext] = useState("");
@@ -18,10 +18,10 @@ function App() {
 			const res = await fetch(URL);
 			const data = await res.json();
 			const result = data.results;
+			setPokemon(result);
 			setNext(data.next);
 			setPrev(data.previous);
 			setLoading(true);
-			setPokemon(result);
 			setTimeout(() => {
 				setLoading(false);
 			}, 3000);
@@ -57,18 +57,30 @@ function App() {
 			<nav>
 				<p>PokéDB</p>
 				<div className="searchfield">
-					<input type="text" />
-					<button type="button">Search</button>
+					<input className="search" type="text" />
+					<button className="search" type="button">
+						Search
+					</button>
 				</div>
 			</nav>
 
 			<div className="pokecontainer">
-				{loading && <div className="loader"></div>}
+				{loading && (
+					<div className="loader-container">
+						<div className="loader"></div>
+					</div>
+				)}
 				{!loading &&
 					pokemonData.map((pokemon) => (
 						<div className="card" key={pokemon.id}>
-							<img src={pokemon.sprites.front_default} alt={pokemon.name} />
-							<p>{pokemon.name}</p>
+							<img
+								src={pokemon.sprites.front_default}
+								alt={pokemon.name}
+								loading="lazy"
+							/>
+							<p>
+								{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+							</p>
 						</div>
 					))}
 			</div>
