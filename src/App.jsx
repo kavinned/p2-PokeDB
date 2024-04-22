@@ -55,7 +55,7 @@ function App() {
 	return (
 		<div className="container">
 			<nav>
-				<p>PokeDB</p>
+				<p>PokéDB</p>
 				<div className="searchfield">
 					<input type="text" />
 					<button type="button">Search</button>
