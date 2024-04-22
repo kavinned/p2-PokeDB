@@ -20,10 +20,9 @@ function App() {
 			const result = data.results;
 			setNext(data.next);
 			setPrev(data.previous);
-			console.log(data);
 			setLoading(true);
+			setPokemon(result);
 			setTimeout(() => {
-				setPokemon(result);
 				setLoading(false);
 			}, 3000);
 		}
@@ -33,7 +32,6 @@ function App() {
 			for (let i = 0; i < pokemon.length; i++) {
 				const res = await fetch(pokemon[i].url);
 				const data = await res.json();
-				console.log(data);
 				setData((prev) => [...prev, data]);
 			}
 		}
@@ -66,14 +64,15 @@ function App() {
 
 			<div className="pokecontainer">
 				{loading && <div className="loader"></div>}
-				{pokemonData.map((pokemon) => (
-					<div className="card" key={pokemon.id}>
-						<img src={pokemon.sprites.front_default} alt={pokemon.name} />
-						<p>{pokemon.name}</p>
-					</div>
-				))}
+				{!loading &&
+					pokemonData.map((pokemon) => (
+						<div className="card" key={pokemon.id}>
+							<img src={pokemon.sprites.front_default} alt={pokemon.name} />
+							<p>{pokemon.name}</p>
+						</div>
+					))}
 			</div>
-			{pokemonData.length > 0 && (
+			{!loading && pokemonData.length > 0 && (
 				<div className="pagination">
 					<button className="prev" onClick={prevPage}>
 						Previous Page
