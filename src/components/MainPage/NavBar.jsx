@@ -1,11 +1,35 @@
-export default function NavBar() {
+import { useState } from "react";
+
+export default function NavBar({ handleClick, Reset }) {
+	const [input, setInput] = useState("");
+
+	const handleSearch = (event) => {
+		const value = event.target.value;
+		setInput(value);
+	};
+
+	const handleSubmit = () => {
+		handleClick(input);
+	};
+
 	return (
 		<nav>
 			<p>PokéDB</p>
 			<div className="searchfield">
-				<input className="search" type="text" />
-				<button className="search" type="button">
+				<input
+					value={input}
+					className="search"
+					type="text"
+					onChange={handleSearch}
+				/>
+				<button className="search" type="button" onClick={handleSubmit}>
 					Search
+				</button>
+				<span
+					style={{ borderLeft: "3px solid rgba(0,0,0,0.5)", height: "20px" }}
+				></span>
+				<button className="reset" onClick={Reset}>
+					Reset
 				</button>
 				<span
 					style={{ borderLeft: "3px solid rgba(0,0,0,0.5)", height: "20px" }}

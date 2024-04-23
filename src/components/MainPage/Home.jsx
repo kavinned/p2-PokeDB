@@ -12,7 +12,8 @@ export default function Home() {
 	const [prevURL, setPrev] = useState("");
 	const [nextURL, setNext] = useState("");
 	const [count, setCount] = useState(1);
-
+	const [search, setSearch] = useState("");
+	const [initData, setInit] = useState([]);
 	useEffect(() => {
 		fetchPokemon();
 		async function fetchPokemon() {
@@ -26,9 +27,8 @@ export default function Home() {
 	}, [URL]);
 	useEffect(() => {
 		async function fetchAllPokemonData() {
-			const input = "squirtle";
-			if (input) {
-				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
+			if (search) {
+				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${search}`);
 				const data = await res.json();
 				setData([]);
 				setData([data]);
@@ -37,11 +37,24 @@ export default function Home() {
 					const res = await fetch(pokemon[i].url);
 					const data = await res.json();
 					setData((prev) => [...prev, data]);
+					setInit((prev) => [...prev, data]);
 				}
 			}
 		}
 		fetchAllPokemonData();
-	}, [pokemon]);
+	}, [pokemon, search]);
+
+	console.log(pokemonData);
+
+	const handleClick = (searchTerm) => {
+		setSearch(searchTerm);
+		setData([]);
+	};
+
+	const Reset = () => {
+		setSearch("");
+		setData(initData);
+	};
 
 	const nextPage = () => {
 		setURL(nextURL);
@@ -59,7 +72,7 @@ export default function Home() {
 
 	return (
 		<div className="container">
-			<NavBar />
+			<NavBar handleClick={handleClick} Reset={Reset} />
 			<PokeContainer pokemonData={pokemonData} />
 			<Pagination
 				pokemonData={pokemonData}
