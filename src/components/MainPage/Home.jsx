@@ -26,10 +26,18 @@ export default function Home() {
 	}, [URL]);
 	useEffect(() => {
 		async function fetchAllPokemonData() {
-			for (let i = 0; i < pokemon.length; i++) {
-				const res = await fetch(pokemon[i].url);
+			const input = "squirtle";
+			if (input) {
+				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
 				const data = await res.json();
-				setData((prev) => [...prev, data]);
+				setData([]);
+				setData([data]);
+			} else {
+				for (let i = 0; i < pokemon.length; i++) {
+					const res = await fetch(pokemon[i].url);
+					const data = await res.json();
+					setData((prev) => [...prev, data]);
+				}
 			}
 		}
 		fetchAllPokemonData();
