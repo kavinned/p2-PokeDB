@@ -5,7 +5,8 @@ export default function NavBar({ handleClick, Reset }) {
 
 	const handleSearch = (event) => {
 		const value = event.target.value;
-		setInput(value);
+		const lowerCaseValue = value.toLowerCase();
+		setInput(lowerCaseValue);
 	};
 
 	const handleSubmit = () => {
@@ -21,6 +22,11 @@ export default function NavBar({ handleClick, Reset }) {
 					className="search"
 					type="text"
 					onChange={handleSearch}
+					onKeyDown={(event) => {
+						if (event.key === "Enter") {
+							handleSubmit();
+						}
+					}}
 				/>
 				<button className="search" type="button" onClick={handleSubmit}>
 					Search
