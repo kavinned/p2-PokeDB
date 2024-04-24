@@ -24,10 +24,10 @@ export default function Home() {
 		if (pokemonData.length > 0) {
 			const count = document.querySelectorAll(".card").length;
 			setCardCount(count);
-			if (count === totalCount) {
+			if (count === totalCount || pokemonData === 1) {
 				return;
 			}
-			if (count < totalCount - 1) {
+			if (count <= totalCount - 1) {
 				console.log(count);
 				console.log("LESS THAN COUNT");
 				setIsLoading(true);
@@ -69,7 +69,6 @@ export default function Home() {
 			if (search) {
 				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${search}`);
 				const data = await res.json();
-				setData([]);
 				setData([data]);
 			} else {
 				for (let i = 0; i < pokemon.length; i++) {
@@ -129,7 +128,7 @@ export default function Home() {
 
 	return (
 		<div className="container">
-			{pokemonData.length < 9 && <Loader />}
+			{!search && pokemonData.length < 9 && <Loader />}
 			<NavBar
 				handleClick={handleClick}
 				Reset={Reset}
