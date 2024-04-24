@@ -1,12 +1,18 @@
-export default function Pagination({ pokemonData, prevPage, nextPage, count }) {
+export default function Pagination({
+	pokemonData,
+	prevPage,
+	nextPage,
+	count,
+	filter,
+}) {
 	return (
 		pokemonData.length > 8 && (
 			<div className="pagination">
-				<button className="prev" onClick={prevPage}>
+				<button disabled={filter} className="prev" onClick={prevPage}>
 					Previous Page
 				</button>
-				<h4 className="count">PAGE {count}</h4>
-				<button className="next" onClick={nextPage}>
+				<h4 className="count">{filter ? `END OF RESULTS` : `PAGE ${count}`}</h4>
+				<button disabled={filter} className="next" onClick={nextPage}>
 					Next Page
 				</button>
 			</div>

@@ -1,18 +1,17 @@
 import Card from "./Card";
 import Loader from "./Loader";
 
-export default function PokeContainer({ pokemonData }) {
+export default function PokeContainer({ pokemonData, isLoading }) {
 	return (
-		<>
-			{/* <Loader pokemonData={pokemonData} /> */}
+		isLoading && <Loader />,
+		(
 			<div className="pokecontainer">
-				{/* {pokemonData.length > 8 && */}
 				{pokemonData.map((pokemon) => (
 					<div className="card" key={pokemon.id}>
 						<Card pokemon={pokemon} />
 					</div>
 				))}
 			</div>
-		</>
+		)
 	);
 }

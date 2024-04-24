@@ -1,6 +1,12 @@
 import { useState } from "react";
 
-export default function NavBar({ handleClick, Reset }) {
+export default function NavBar({
+	handleClick,
+	Reset,
+	handleFilter,
+	isLoading,
+	disableReset,
+}) {
 	const [input, setInput] = useState("");
 
 	const handleSearch = (event) => {
@@ -11,6 +17,11 @@ export default function NavBar({ handleClick, Reset }) {
 
 	const handleSubmit = () => {
 		handleClick(input);
+	};
+
+	const handleChange = (event) => {
+		const type = event.target.value;
+		handleFilter(type);
 	};
 
 	return (
@@ -27,21 +38,40 @@ export default function NavBar({ handleClick, Reset }) {
 							handleSubmit();
 						}
 					}}
+					disabled={isLoading}
 				/>
-				<button className="search" type="button" onClick={handleSubmit}>
+				<button
+					disabled={isLoading}
+					className="search"
+					type="button"
+					onClick={handleSubmit}
+				>
 					Search
 				</button>
 				<span
 					style={{ borderLeft: "3px solid rgba(0,0,0,0.5)", height: "20px" }}
 				></span>
-				<button className="reset" onClick={Reset}>
+				<button
+					disabled={isLoading || disableReset}
+					className="reset"
+					onClick={Reset}
+				>
 					Reset
 				</button>
 				<span
-					style={{ borderLeft: "3px solid rgba(0,0,0,0.5)", height: "20px" }}
+					style={{ borderRight: "3px solid rgba(0,0,0,0.5)", height: "20px" }}
 				></span>
 				<label htmlFor="filter">Filter by Type:</label>
-				<select name="filter" id="type-filter">
+				<select
+					disabled={isLoading}
+					defaultValue="select an option"
+					onChange={handleChange}
+					name="filter"
+					id="type-filter"
+				>
+					<option disabled value={null}>
+						select an option
+					</option>
 					<option value="rock">Rock</option>
 					<option value="grass">Grass</option>
 					<option value="normal">Normal</option>

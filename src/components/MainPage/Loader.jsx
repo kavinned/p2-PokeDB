@@ -1,9 +1,7 @@
-export default function Loader({ pokemonData }) {
+export default function Loader() {
 	return (
-		// pokemonData.length < 9 && (
 		<div className="loader-container">
 			<div className="loader"></div>
 		</div>
 	);
-	// );
 }
