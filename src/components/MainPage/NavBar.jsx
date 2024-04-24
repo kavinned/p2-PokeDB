@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function NavBar({
 	handleClick,
@@ -8,7 +9,6 @@ export default function NavBar({
 	disableReset,
 }) {
 	const [input, setInput] = useState("");
-
 	const handleSearch = (event) => {
 		const value = event.target.value;
 		const lowerCaseValue = value.toLowerCase();
@@ -26,7 +26,9 @@ export default function NavBar({
 
 	return (
 		<nav>
-			<p>PokéDB</p>
+			<Link to="/">
+				<p>PokéDB</p>
+			</Link>
 			<div className="searchfield">
 				<input
 					value={input}
@@ -64,12 +66,11 @@ export default function NavBar({
 				<label htmlFor="filter">Filter by Type:</label>
 				<select
 					disabled={isLoading}
-					defaultValue="select an option"
 					onChange={handleChange}
 					name="filter"
 					id="type-filter"
 				>
-					<option disabled value={null}>
+					<option disabled value={null} selected>
 						select an option
 					</option>
 					<option value="rock">Rock</option>
@@ -91,7 +92,9 @@ export default function NavBar({
 					<option value="fairy">Fairy</option>
 				</select>
 			</div>
-			<button className="fav-btn">Favorites</button>
+			<Link to="/favorites">
+				<button className="fav-btn">Favorites</button>
+			</Link>
 		</nav>
 	);
 }

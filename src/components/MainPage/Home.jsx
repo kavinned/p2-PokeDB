@@ -22,21 +22,15 @@ export default function Home() {
 
 	useEffect(() => {
 		if (pokemonData.length > 0) {
-			const count = document.querySelectorAll(".card").length;
-			setCardCount(count);
-			if (count === totalCount || pokemonData === 1) {
-				return;
-			}
-			if (count <= totalCount - 1) {
-				console.log(count);
-				console.log("LESS THAN COUNT");
-				setIsLoading(true);
-			} else {
-				setIsLoading(false);
-				return;
-			}
+			const pokeCount = pokemonData.length;
+			setCardCount(pokeCount);
 		}
-	}, [pokemonData, totalCount]);
+		if (cardCount < totalCount - 1) {
+			setIsLoading(true);
+		} else {
+			setIsLoading(false);
+		}
+	}, [pokemonData, totalCount, cardCount]);
 
 	useEffect(() => {
 		async function fetchPokemon() {
@@ -66,24 +60,25 @@ export default function Home() {
 
 	useEffect(() => {
 		async function fetchAllPokemonData() {
+			setIsLoading(true);
+			let fetchedData = [];
 			if (search) {
 				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${search}`);
 				const data = await res.json();
-				setData([data]);
+				fetchedData = [data];
 			} else {
 				for (let i = 0; i < pokemon.length; i++) {
 					const res = await fetch(pokemon[i].url);
 					const data = await res.json();
-					setData((prev) => [...prev, data]);
-					if (filter) {
-						setData((data) =>
-							data.filter((item) =>
-								item.types.some((type) => type.type.name === filter)
-							)
-						);
-					}
+					fetchedData.push(data);
 				}
 			}
+			if (filter) {
+				fetchedData = fetchedData.filter((item) =>
+					item.types.some((type) => type.type.name === filter)
+				);
+			}
+			setData(fetchedData);
 		}
 		fetchAllPokemonData();
 	}, [pokemon, search, filter]);
@@ -116,7 +111,6 @@ export default function Home() {
 		setPokemon([]);
 		setData([]);
 		setCount(count + 1);
-		cardCount < 9 && setIsLoading(true);
 	};
 
 	const prevPage = () => {
@@ -125,10 +119,9 @@ export default function Home() {
 		setData([]);
 		setCount(count - 1);
 	};
-
 	return (
 		<div className="container">
-			{!search && pokemonData.length < 9 && <Loader />}
+			{!search && pokemonData.length < cardCount && <Loader />}
 			<NavBar
 				handleClick={handleClick}
 				Reset={Reset}
@@ -144,7 +137,6 @@ export default function Home() {
 				count={count}
 				filter={filter}
 			/>
-			{isLoading && <Loader />}
 		</div>
 	);
 }
