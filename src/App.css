@@ -98,7 +98,9 @@ body {
 	border-radius: 20px;
 	transform: scale(1.05);
 	transition: 0.3s;
-	box-shadow: 0px 0px 20px rgba(141, 141, 141, 0.5);
+	background-color: #9d9d9dbe;
+	box-shadow: inset 0px 0px 20px rgba(0, 0, 0, 0.6),
+		0px 0px 20px rgba(141, 141, 141, 0.5);
 }
 
 .mainnav {
@@ -126,7 +128,7 @@ body {
 .secondarynav {
 	height: 50px;
 	background-color: grey;
-	width: 30vw;
+	width: 80vw;
 	margin-top: 50px;
 	border-radius: 10px;
 	padding: 5px;
@@ -137,7 +139,8 @@ body {
 	animation-delay: 1s;
 	grid-row: 1/2;
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: center;
+	gap: 30px;
 	align-items: center;
 }
 
@@ -235,7 +238,8 @@ a:focus-visible {
 select,
 .fav-btn,
 .reset,
-.sn-btn {
+.sn-btn,
+.del-btn {
 	border-radius: 10px;
 	font-size: 14px;
 	background-color: rgba(255, 255, 255, 0.5);
@@ -248,7 +252,8 @@ select,
 select:active,
 .fav-btn:hover,
 .reset:hover,
-.sn-btn:hover {
+.sn-btn:hover,
+.del-btn:hover {
 	border: 3px inset rgb(175, 82, 82);
 	border-radius: 12px;
 	transition: 0.3s;
@@ -360,4 +365,35 @@ legend {
 
 .loader2:before {
 	content: "Loading...";
+}
+
+button {
+	cursor: pointer;
+}
+
+.fav-card {
+	width: 50vw;
+	margin: 20px;
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+	justify-content: space-around;
+}
+
+.favorite-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.favorites {
+	margin-top: 30px;
+}
+
+span {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 20px;
 }

@@ -34,15 +34,12 @@ export default function PokeDetails() {
 				},
 			}),
 		};
-
-		const response = await fetch(url, options);
-		const data = await response.json();
-		console.log(data);
+		const res = await fetch(url, options);
 	}
 
 	return (
 		<div className="detail-container">
-			<SecondaryNavBar />
+			<SecondaryNavBar title="PokéDetails" />
 			<div className="details">
 				{pokemon?.length < 1 ? (
 					<div className="loader2"></div>
@@ -82,7 +79,9 @@ export default function PokeDetails() {
 								</ul>
 							</fieldset>
 						</div>
-						<button onClick={setFavorites}>Add to Favorites</button>
+						<button className="fav-btn" onClick={setFavorites}>
+							Add to Favorites
+						</button>
 					</>
 				)}
 			</div>
