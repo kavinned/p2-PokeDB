@@ -43,6 +43,7 @@ export default function NavBar({
 			<div className="searchfield">
 				<input
 					required
+					name="search-field"
 					value={input}
 					className="search"
 					type="search"
@@ -75,7 +76,7 @@ export default function NavBar({
 				<span
 					style={{ borderRight: "3px solid rgba(0,0,0,0.5)", height: "20px" }}
 				></span>
-				<label htmlFor="filter">Filter by Type:</label>
+				<label htmlFor="type-filter">Filter by Type:</label>
 				<select
 					disabled={isLoading}
 					onChange={handleChange}
