@@ -34,7 +34,7 @@ export default function PokeDetails() {
 				},
 			}),
 		};
-		const res = await fetch(url, options);
+		return await fetch(url, options);
 	}
 
 	return (
