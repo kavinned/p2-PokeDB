@@ -36,7 +36,7 @@ export default function NavBar({
 	};
 
 	return (
-		<nav>
+		<nav className="mainnav">
 			<Link to="/">
 				<p>PokéDB</p>
 			</Link>

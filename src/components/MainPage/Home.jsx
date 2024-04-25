@@ -54,6 +54,7 @@ export default function Home() {
 				setData(pokemonInfo);
 			}
 		}
+
 		fetchPokemon();
 
 		async function fetchCount() {
@@ -81,15 +82,12 @@ export default function Home() {
 		fetchPokemonByType(filter);
 
 		async function searchPokemon() {
-			setIsLoading(true);
-			let fetchedData = [];
-			if (search) {
+			if (search !== "") {
 				setIsLoading(true);
 				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${search}`);
 				const data = await res.json();
-				fetchedData = [data];
+				setData([data]);
 			}
-			setData(fetchedData);
 			setIsLoading(false);
 		}
 		searchPokemon();
@@ -128,6 +126,7 @@ export default function Home() {
 		setData([]);
 		setCount(count - 1);
 	};
+
 	return (
 		<div className="container">
 			{!search && pokemonData.length < cardCount && <Loader />}
