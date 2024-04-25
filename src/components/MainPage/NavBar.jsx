@@ -9,6 +9,7 @@ export default function NavBar({
 	disableReset,
 }) {
 	const [input, setInput] = useState("");
+	const [selected, setSelected] = useState("select an option");
 	const [disableSearch, setDisableSearch] = useState(true);
 
 	const handleSearch = (event) => {
@@ -24,7 +25,14 @@ export default function NavBar({
 
 	const handleChange = (event) => {
 		const type = event.target.value;
+		setSelected(type);
 		handleFilter(type);
+	};
+
+	const handleReset = () => {
+		Reset();
+		setInput("");
+		setSelected("select an option");
 	};
 
 	return (
@@ -60,7 +68,7 @@ export default function NavBar({
 				<button
 					disabled={isLoading || disableReset}
 					className="reset"
-					onClick={Reset}
+					onClick={handleReset}
 				>
 					Reset
 				</button>
@@ -73,7 +81,7 @@ export default function NavBar({
 					onChange={handleChange}
 					name="filter"
 					id="type-filter"
-					defaultValue="select an option"
+					value={selected}
 				>
 					<option disabled value={null}>
 						select an option

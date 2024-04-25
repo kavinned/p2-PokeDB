@@ -40,7 +40,6 @@ export default function Home() {
 			const res = await fetch(url);
 			const data = await res.json();
 			const result = data.results;
-
 			setNext(data.next);
 			setPrev(data.previous);
 			const pokemonInfo = await Promise.all(
@@ -51,7 +50,9 @@ export default function Home() {
 					return res.json();
 				})
 			);
-			setData(pokemonInfo);
+			if (!search && !filter) {
+				setData(pokemonInfo);
+			}
 		}
 		fetchPokemon();
 
@@ -78,8 +79,7 @@ export default function Home() {
 			setData(pokemonInfo);
 		}
 		fetchPokemonByType(filter);
-	}, [URL, filter]);
-	useEffect(() => {
+
 		async function searchPokemon() {
 			setIsLoading(true);
 			let fetchedData = [];
@@ -93,7 +93,8 @@ export default function Home() {
 			setIsLoading(false);
 		}
 		searchPokemon();
-	}, [search]);
+	}, [URL, filter, search]);
+	useEffect(() => {}, [search]);
 
 	const handleClick = (searchTerm) => {
 		setSearch(searchTerm);
