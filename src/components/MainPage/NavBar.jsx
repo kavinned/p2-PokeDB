@@ -9,9 +9,12 @@ export default function NavBar({
 	disableReset,
 }) {
 	const [input, setInput] = useState("");
+	const [disableSearch, setDisableSearch] = useState(true);
+
 	const handleSearch = (event) => {
 		const value = event.target.value;
 		const lowerCaseValue = value.toLowerCase();
+		lowerCaseValue ? setDisableSearch(false) : setDisableSearch(true);
 		setInput(lowerCaseValue);
 	};
 
@@ -31,9 +34,10 @@ export default function NavBar({
 			</Link>
 			<div className="searchfield">
 				<input
+					required
 					value={input}
 					className="search"
-					type="text"
+					type="search"
 					onChange={handleSearch}
 					onKeyDown={(event) => {
 						if (event.key === "Enter") {
@@ -43,7 +47,7 @@ export default function NavBar({
 					disabled={isLoading}
 				/>
 				<button
-					disabled={isLoading}
+					disabled={isLoading || disableSearch}
 					className="search"
 					type="button"
 					onClick={handleSubmit}
@@ -69,8 +73,9 @@ export default function NavBar({
 					onChange={handleChange}
 					name="filter"
 					id="type-filter"
+					defaultValue="select an option"
 				>
-					<option disabled value={null} selected>
+					<option disabled value={null}>
 						select an option
 					</option>
 					<option value="rock">Rock</option>

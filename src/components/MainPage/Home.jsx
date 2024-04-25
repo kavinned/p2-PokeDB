@@ -5,7 +5,6 @@ import Pagination from "./Pagination";
 import Loader from "./Loader";
 
 export default function Home() {
-	const [pokemon, setPokemon] = useState([]);
 	const [pokemonData, setData] = useState([]);
 	const [URL, setURL] = useState(
 		"https://pokeapi.co/api/v2/pokemon?limit=9&offset=0"
@@ -41,14 +40,21 @@ export default function Home() {
 			const res = await fetch(url);
 			const data = await res.json();
 			const result = data.results;
-			setPokemon(result);
+
 			setNext(data.next);
 			setPrev(data.previous);
+			const pokemonInfo = await Promise.all(
+				result.map(async (pokemon) => {
+					const res = await fetch(
+						`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+					);
+					return res.json();
+				})
+			);
+			setData(pokemonInfo);
 		}
 		fetchPokemon();
-	}, [URL, filter]);
 
-	useEffect(() => {
 		async function fetchCount() {
 			const res = await fetch(`https://pokeapi.co/api/v2/type/${filter}`);
 			const data = await res.json();
@@ -56,32 +62,38 @@ export default function Home() {
 			setTotalCount(pokemonCount);
 		}
 		fetchCount();
-	}, [filter]);
 
+		async function fetchPokemonByType(type) {
+			setData([]);
+			const res = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
+			const data = await res.json();
+			const pokemonList =
+				data.pokemon?.map((pokemon) => pokemon.pokemon.name) || [];
+			const pokemonInfo = await Promise.all(
+				pokemonList.map(async (name) => {
+					const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+					return res.json();
+				})
+			);
+			setData(pokemonInfo);
+		}
+		fetchPokemonByType(filter);
+	}, [URL, filter]);
 	useEffect(() => {
-		async function fetchAllPokemonData() {
+		async function searchPokemon() {
 			setIsLoading(true);
 			let fetchedData = [];
 			if (search) {
+				setIsLoading(true);
 				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${search}`);
 				const data = await res.json();
 				fetchedData = [data];
-			} else {
-				for (let i = 0; i < pokemon.length; i++) {
-					const res = await fetch(pokemon[i].url);
-					const data = await res.json();
-					fetchedData.push(data);
-				}
-			}
-			if (filter) {
-				fetchedData = fetchedData.filter((item) =>
-					item.types.some((type) => type.type.name === filter)
-				);
 			}
 			setData(fetchedData);
+			setIsLoading(false);
 		}
-		fetchAllPokemonData();
-	}, [pokemon, search, filter]);
+		searchPokemon();
+	}, [search]);
 
 	const handleClick = (searchTerm) => {
 		setSearch(searchTerm);
@@ -96,26 +108,22 @@ export default function Home() {
 	};
 
 	const Reset = () => {
-		if (filter) {
-			setPokemon([]);
-		}
 		setSearch("");
 		setFilter("");
 		setData([]);
 		setDisableReset(true);
-		setURL("https://pokeapi.co/api/v2/pokemon?limit=9&offset=0");
 	};
 
 	const nextPage = () => {
 		setURL(nextURL);
-		setPokemon([]);
+
 		setData([]);
 		setCount(count + 1);
 	};
 
 	const prevPage = () => {
 		setURL(prevURL);
-		setPokemon([]);
+
 		setData([]);
 		setCount(count - 1);
 	};

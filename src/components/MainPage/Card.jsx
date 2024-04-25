@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Card({ pokemon }) {
 	const [isShiny, setIsShiny] = useState(false);
+
 	const handleClick = () => {
 		setIsShiny(!isShiny);
 	};
