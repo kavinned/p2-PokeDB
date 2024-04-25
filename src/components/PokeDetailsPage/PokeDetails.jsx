@@ -16,6 +16,30 @@ export default function PokeDetails() {
 		fetchPokemon();
 	}, [name]);
 
+	async function setFavorites() {
+		const url =
+			"https://api.airtable.com/v0/appSk5cmn3M9kchEe/tbl5JNznTkKDnZFMT";
+		const options = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization:
+					"Bearer patguYBloFNALqIbK.8ffe2ff9c2968ed3db810f476026d7d5e09272b5a1f5c224bd3213110a7e7c06",
+			},
+			body: JSON.stringify({
+				fields: {
+					name: pokemon.name,
+					type: pokemon.types.map((type) => type.type.name).join(" / "),
+					sprite: pokemon?.sprites?.other["official-artwork"]?.front_default,
+				},
+			}),
+		};
+
+		const response = await fetch(url, options);
+		const data = await response.json();
+		console.log(data);
+	}
+
 	return (
 		<div className="detail-container">
 			<SecondaryNavBar />
@@ -58,6 +82,7 @@ export default function PokeDetails() {
 								</ul>
 							</fieldset>
 						</div>
+						<button onClick={setFavorites}>Add to Favorites</button>
 					</>
 				)}
 			</div>
