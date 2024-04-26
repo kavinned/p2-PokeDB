@@ -77,7 +77,7 @@
 /* global */
 * {
 	font-family: "quicksand", sans-serif;
-	font-weight: 600;
+	font-weight: 500;
 }
 
 root {
@@ -311,14 +311,23 @@ select:active,
 	align-items: center;
 	gap: 20px;
 	animation: 1.5s ease-in-out backwards fade-in;
+	margin-top: 20px;
 }
 
 .details h1 {
 	font-size: 36px;
+	margin: 0;
+	text-transform: capitalize;
+}
+
+.addFavName {
+	text-transform: capitalize;
+	text-decoration: underline;
+	font-weight: bold;
 }
 
 .fav-btn {
-	margin-right: 10px;
+	margin-top: 10px;
 }
 
 .info {
@@ -349,6 +358,29 @@ ul {
 	font-size: 24px;
 }
 
+.addedmsg {
+	min-height: 20px;
+	opacity: 0;
+	margin: 0;
+	border: 1px transparent;
+	padding: 7px;
+	font-size: 18px;
+}
+
+.addedmsg.visible {
+	opacity: 1;
+	max-height: 20px;
+	margin: 0;
+	border: 1px solid rgba(255, 255, 255, 0.452);
+	padding: 7px;
+	border-radius: 5px;
+	background-color: #ff7c7ca5;
+	color: rgba(255, 255, 255, 0.775);
+	font-size: 14px;
+	box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.452),
+		0px 0px 10px rgba(255, 255, 255, 0.452);
+}
+
 legend {
 	filter: drop-shadow(0px 0px 5px rgb(177, 246, 252));
 	font-weight: bold;
@@ -375,11 +407,12 @@ legend {
 	margin-top: 30px;
 }
 
-span {
+.fav-details {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	gap: 20px;
+	text-transform: capitalize;
 }
 /* loader */
 .loader-container {

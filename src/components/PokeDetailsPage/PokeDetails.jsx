@@ -6,6 +6,7 @@ import SecondaryNavBar from "../SecondaryNavBar";
 export default function PokeDetails() {
 	const { name } = useParams();
 	const [pokemon, setPokemon] = useState([]);
+	const [addedToFav, setAddedToFav] = useState(false);
 
 	useEffect(() => {
 		async function fetchPokemon() {
@@ -34,7 +35,13 @@ export default function PokeDetails() {
 				},
 			}),
 		};
-		await fetch(url, options);
+		const res = await fetch(url, options);
+		if (res.ok) {
+			setAddedToFav(true);
+			setTimeout(() => {
+				setAddedToFav(false);
+			}, 2000);
+		}
 	}
 
 	return (
@@ -82,6 +89,13 @@ export default function PokeDetails() {
 						<button className="fav-btn" onClick={setFavorites}>
 							Add to Favorites
 						</button>
+						{!addedToFav && <p className="addedmsg"></p>}
+						{addedToFav && (
+							<p className="addedmsg visible">
+								<span className="addFavName">{pokemon.name}</span> has been
+								added to favorites
+							</p>
+						)}
 					</>
 				)}
 			</div>

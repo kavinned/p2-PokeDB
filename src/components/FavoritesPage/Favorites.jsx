@@ -44,7 +44,7 @@ export default function Favorites() {
 			<div className="favorites">
 				{favorites.map((favorite) => (
 					<div className="card fav-card" key={favorite.id}>
-						<span>
+						<span className="fav-details">
 							<Link to={`/pokemon/${favorite.fields.name}`}>
 								<img
 									className="pokemon-img"
@@ -53,7 +53,7 @@ export default function Favorites() {
 									alt={favorite.fields.name}
 								/>
 							</Link>
-							<h2>{favorite.fields.name}</h2>
+							<h2 className="addFavName">{favorite.fields.name}</h2>
 							<p>Type: {favorite.fields.type}</p>
 						</span>
 						<button onClick={() => handleDelete(favorite)} className="del-btn">
