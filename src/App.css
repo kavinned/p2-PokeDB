@@ -129,7 +129,8 @@ select,
 .fav-btn,
 .reset,
 .sn-btn,
-.del-btn {
+.del-btn,
+.add-fav-btn {
 	border-radius: 10px;
 	font-size: 14px;
 	background-color: rgba(255, 255, 255, 0.5);
@@ -143,7 +144,8 @@ select:active,
 .fav-btn:hover,
 .reset:hover,
 .sn-btn:hover,
-.del-btn:hover {
+.del-btn:hover,
+.add-fav-btn:hover {
 	border: 3px inset rgb(175, 82, 82);
 	border-radius: 12px;
 	transition: 0.3s;
@@ -160,7 +162,7 @@ select:active,
 	display: flex;
 	align-items: center;
 	animation: 1s ease-in-out backwards fade-in-down;
-	animation-delay: 1s;
+	animation-delay: 0.5s;
 }
 
 .mainnav p,
@@ -196,6 +198,10 @@ select:active,
 	width: 100%;
 	gap: 10px;
 }
+
+.fav-btn {
+	margin-right: 10px;
+}
 /* pokecontainer */
 .pokecontainer {
 	display: grid;
@@ -206,7 +212,7 @@ select:active,
 
 .card {
 	position: relative;
-	animation: 2s ease-in-out backwards fade-in-up;
+	animation: 1s ease-in-out backwards fade-in-up;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -291,7 +297,7 @@ select:active,
 	justify-content: space-between;
 	align-items: center;
 	animation: 1s ease-in-out backwards fade-in-up;
-	animation-delay: 1s;
+	animation-delay: 0.5s;
 }
 /* pokedetails */
 .detail-container {
@@ -309,8 +315,8 @@ select:active,
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 20px;
-	animation: 1.5s ease-in-out backwards fade-in;
+	gap: 30px;
+	animation: 1s ease-in-out backwards fade-in;
 	margin-top: 20px;
 }
 
@@ -326,7 +332,7 @@ select:active,
 	font-weight: bold;
 }
 
-.fav-btn {
+.add-fav-btn {
 	margin-top: 10px;
 }
 
@@ -341,6 +347,15 @@ select:active,
 	padding-left: 0;
 }
 
+section h2 {
+	margin: -0.7em 0 0;
+	font-weight: normal;
+	filter: drop-shadow(0px 0px 5px rgb(177, 246, 252));
+	font-weight: bold;
+	font-size: 1.5em;
+	text-align: center;
+}
+
 .types,
 .abilities,
 .stats {
@@ -348,7 +363,6 @@ select:active,
 	flex-direction: column;
 	background-color: rgba(128, 128, 128, 0.351);
 	border: 1px solid black;
-	text-align: center;
 	width: 20vw;
 	border-radius: 10px;
 }
@@ -356,6 +370,20 @@ select:active,
 ul {
 	padding: 0;
 	font-size: 24px;
+}
+
+.types,
+.abilities,
+.stat {
+	text-transform: capitalize;
+	text-align: center;
+	font-weight: 600;
+}
+
+.stats {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .addedmsg {
@@ -379,12 +407,6 @@ ul {
 	font-size: 14px;
 	box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.452),
 		0px 0px 10px rgba(255, 255, 255, 0.452);
-}
-
-legend {
-	filter: drop-shadow(0px 0px 5px rgb(177, 246, 252));
-	font-weight: bold;
-	font-size: 1.5rem;
 }
 /* favoritepoke */
 .favorite-container {
@@ -464,5 +486,5 @@ legend {
 	margin-top: 50px;
 	font-size: 24px;
 	-webkit-text-stroke: 0.3px red;
-	animation: 0.5s linear shake;
+	animation: 1s linear shake;
 }

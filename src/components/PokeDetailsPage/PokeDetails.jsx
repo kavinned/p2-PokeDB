@@ -59,34 +59,35 @@ export default function PokeDetails() {
 							alt={pokemon.name}
 						/>
 						<div className="info">
-							<fieldset className="types">
-								<legend>Types</legend>
+							<section className="types">
+								<h2>Types</h2>
 								<ul>
 									{pokemon.types?.map((type) => (
 										<li key={type.type.name}>{type.type.name}</li>
 									))}
 								</ul>
-							</fieldset>
-							<fieldset className="abilities">
-								<legend>Abilities</legend>
+							</section>
+							<section className="abilities">
+								<h2>Abilities</h2>
 								<ul>
 									{pokemon.abilities?.map((ability) => (
 										<li key={ability.ability.name}>{ability.ability.name}</li>
 									))}
 								</ul>
-							</fieldset>
-							<fieldset className="stats">
-								<legend>Stats</legend>
+							</section>
+							<section className="stats">
+								<h2>Stats</h2>
 								<ul>
 									{pokemon.stats?.map((stat) => (
 										<li key={stat.stat.name}>
-											{stat.stat.name}: {stat.base_stat}
+											<span className="stat">{stat.stat.name}</span>:{" "}
+											{stat.base_stat}
 										</li>
 									))}
 								</ul>
-							</fieldset>
+							</section>
 						</div>
-						<button className="fav-btn" onClick={setFavorites}>
+						<button className="add-fav-btn" onClick={setFavorites}>
 							Add to Favorites
 						</button>
 						{!addedToFav && <p className="addedmsg"></p>}
