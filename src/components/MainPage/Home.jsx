@@ -15,11 +15,12 @@ export default function Home() {
 	const [search, setSearch] = useState("");
 	const [filter, setFilter] = useState("");
 	const [disableReset, setDisableReset] = useState(true);
-	const [totalCount, setTotalCount] = useState(0);
 	const [searchError, setSearchError] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		async function fetchPokemon() {
+			setIsLoading(true);
 			let url = URL;
 			if (filter) {
 				url = "https://pokeapi.co/api/v2/pokemon?limit=1302&offset=0";
@@ -37,20 +38,12 @@ export default function Home() {
 					return res.json();
 				})
 			);
+			setIsLoading(false);
 			if (!search && !filter) {
 				setData(pokemonInfo);
 			}
 		}
-
 		fetchPokemon();
-
-		async function fetchCount() {
-			const res = await fetch(`https://pokeapi.co/api/v2/type/${filter}`);
-			const data = await res.json();
-			const pokemonCount = data?.pokemon?.length;
-			setTotalCount(pokemonCount);
-		}
-		fetchCount();
 
 		async function fetchPokemonByType(type) {
 			setData([]);
@@ -64,7 +57,8 @@ export default function Home() {
 					return res.json();
 				})
 			);
-			setData(pokemonInfo);
+
+			!search && setData(pokemonInfo);
 		}
 		fetchPokemonByType(filter);
 
@@ -77,6 +71,7 @@ export default function Home() {
 					setSearchError("");
 				} else {
 					setSearchError("There is no such Pokémon");
+					setIsLoading(false);
 				}
 			}
 		}
@@ -119,27 +114,29 @@ export default function Home() {
 
 	return (
 		<div className="container">
-			{!search && !filter && pokemonData.length < 9 && <Loader />}
-			{filter && pokemonData.length < totalCount && <Loader />}
+			{isLoading && <Loader />}
 			<NavBar
 				handleClick={handleClick}
 				Reset={Reset}
 				handleFilter={handleFilter}
 				disableReset={disableReset}
+				isLoading={isLoading}
 			/>
 			{searchError && (
 				<div className="error-msg">
 					<h1>{searchError}</h1>
 				</div>
 			)}
-			<PokeContainer pokemonData={pokemonData} />
-			<Pagination
-				pokemonData={pokemonData}
-				nextPage={nextPage}
-				prevPage={prevPage}
-				count={count}
-				filter={filter}
-			/>
+			{!isLoading && <PokeContainer pokemonData={pokemonData} />}
+			{!isLoading && (
+				<Pagination
+					pokemonData={pokemonData}
+					nextPage={nextPage}
+					prevPage={prevPage}
+					count={count}
+					filter={filter}
+				/>
+			)}
 		</div>
 	);
 }

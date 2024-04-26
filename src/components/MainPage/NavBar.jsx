@@ -6,6 +6,7 @@ export default function NavBar({
 	Reset,
 	handleFilter,
 	disableReset,
+	isLoading,
 }) {
 	const [input, setInput] = useState("");
 	const [selected, setSelected] = useState("select an option");
@@ -65,7 +66,7 @@ export default function NavBar({
 					}}
 				/>
 				<button
-					disabled={disableSearch}
+					disabled={isLoading || disableSearch}
 					className="search"
 					type="button"
 					onClick={handleSubmit}
@@ -75,7 +76,11 @@ export default function NavBar({
 				<span
 					style={{ borderLeft: "3px solid rgba(0,0,0,0.5)", height: "20px" }}
 				></span>
-				<button disabled={disableReset} className="reset" onClick={handleReset}>
+				<button
+					disabled={isLoading || disableReset}
+					className="reset"
+					onClick={handleReset}
+				>
 					Reset
 				</button>
 				<span
@@ -87,6 +92,7 @@ export default function NavBar({
 					name="filter"
 					id="type-filter"
 					value={selected}
+					disabled={isLoading}
 				>
 					<option disabled value={null}>
 						select an option
@@ -99,7 +105,9 @@ export default function NavBar({
 				</select>
 			</div>
 			<Link to="/favorites">
-				<button className="fav-btn">Favorites</button>
+				<button disabled={isLoading} className="fav-btn">
+					Favorites
+				</button>
 			</Link>
 		</nav>
 	);
