@@ -265,6 +265,7 @@ select:active,
 	background-color: rgba(255, 255, 255, 0.5);
 	padding: 5px 10px 5px 10px;
 	border: 3px solid rgba(0, 0, 0, 0.178);
+	transition: 0.3s;
 }
 
 .pagination > button:hover {
@@ -300,6 +301,7 @@ select:disabled {
 	background-color: transparent;
 	filter: drop-shadow(0px 0px 5px rgba(255, 251, 0, 0.642));
 	cursor: pointer;
+	transition: 0.3s;
 }
 
 .shiny:hover {
@@ -310,6 +312,7 @@ select:disabled {
 
 .pokemon-img {
 	filter: drop-shadow(5px 3px 2px rgba(0, 0, 0, 0.3));
+	transition: 0.5s;
 }
 
 .pokemon-img:hover {
@@ -396,4 +399,13 @@ span {
 	flex-direction: row;
 	align-items: center;
 	gap: 20px;
+}
+
+.error-msg {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
+	font-size: 24px;
+	-webkit-text-stroke: 0.3px red;
 }

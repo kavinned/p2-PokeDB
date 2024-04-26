@@ -14,22 +14,9 @@ export default function Home() {
 	const [count, setCount] = useState(1);
 	const [search, setSearch] = useState("");
 	const [filter, setFilter] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
 	const [disableReset, setDisableReset] = useState(true);
 	const [totalCount, setTotalCount] = useState(0);
-	const [cardCount, setCardCount] = useState(0);
-
-	useEffect(() => {
-		if (pokemonData.length > 0) {
-			const pokeCount = pokemonData.length;
-			setCardCount(pokeCount);
-		}
-		if (cardCount < totalCount - 1) {
-			setIsLoading(true);
-		} else {
-			setIsLoading(false);
-		}
-	}, [pokemonData, totalCount, cardCount]);
+	const [searchError, setSearchError] = useState("");
 
 	useEffect(() => {
 		async function fetchPokemon() {
@@ -83,12 +70,15 @@ export default function Home() {
 
 		async function searchPokemon() {
 			if (search !== "") {
-				setIsLoading(true);
 				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${search}`);
-				const data = await res.json();
-				setData([data]);
+				if (res.ok) {
+					const data = await res.json();
+					setData([data]);
+					setSearchError("");
+				} else {
+					setSearchError("There is no such Pokémon");
+				}
 			}
-			setIsLoading(false);
 		}
 		searchPokemon();
 	}, [URL, filter, search]);
@@ -110,12 +100,12 @@ export default function Home() {
 		setSearch("");
 		setFilter("");
 		setData([]);
+		setSearchError("");
 		setDisableReset(true);
 	};
 
 	const nextPage = () => {
 		setURL(nextURL);
-
 		setData([]);
 		setCount(count + 1);
 	};
@@ -129,15 +119,20 @@ export default function Home() {
 
 	return (
 		<div className="container">
-			{!search && pokemonData.length < cardCount && <Loader />}
+			{!search && !filter && pokemonData.length < 9 && <Loader />}
+			{filter && pokemonData.length < totalCount && <Loader />}
 			<NavBar
 				handleClick={handleClick}
 				Reset={Reset}
 				handleFilter={handleFilter}
 				disableReset={disableReset}
-				isLoading={isLoading}
 			/>
-			<PokeContainer pokemonData={pokemonData} isLoading={isLoading} />
+			{searchError && (
+				<div className="error-msg">
+					<h1>{searchError}</h1>
+				</div>
+			)}
+			<PokeContainer pokemonData={pokemonData} />
 			<Pagination
 				pokemonData={pokemonData}
 				nextPage={nextPage}
