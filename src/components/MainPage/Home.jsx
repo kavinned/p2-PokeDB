@@ -57,7 +57,6 @@ export default function Home() {
 					return res.json();
 				})
 			);
-
 			!search && setData(pokemonInfo);
 		}
 		fetchPokemonByType(filter);
@@ -87,6 +86,7 @@ export default function Home() {
 
 	const handleFilter = (type) => {
 		setFilter(type);
+		setSearch("");
 		setData([]);
 		setDisableReset(false);
 	};
