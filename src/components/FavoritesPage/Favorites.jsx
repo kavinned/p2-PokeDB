@@ -24,6 +24,20 @@ export default function Favorites() {
 		fetchFavorites();
 	}, []);
 
+	async function handleDelete(favitem) {
+		const url = `https://api.airtable.com/v0/appSk5cmn3M9kchEe/tbl5JNznTkKDnZFMT/${favitem.id}`;
+		const options = {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization:
+					"Bearer patguYBloFNALqIbK.8ffe2ff9c2968ed3db810f476026d7d5e09272b5a1f5c224bd3213110a7e7c06",
+			},
+		};
+		await fetch(url, options);
+		setFavorites(favorites.filter((favorite) => favorite.id !== favitem.id));
+	}
+
 	return (
 		<div className="favorite-container">
 			<SecondaryNavBar title="Favorites" />
@@ -42,7 +56,9 @@ export default function Favorites() {
 							<h2>{favorite.fields.name}</h2>
 							<p>Type: {favorite.fields.type}</p>
 						</span>
-						<button className="del-btn">Delete</button>
+						<button onClick={() => handleDelete(favorite)} className="del-btn">
+							Delete
+						</button>
 					</div>
 				))}
 			</div>

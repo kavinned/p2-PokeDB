@@ -182,7 +182,6 @@ select:active,
 	display: flex;
 	align-items: center;
 	animation: 1s ease-in-out backwards fade-in-down;
-	animation-delay: 1s;
 	grid-row: 1/2;
 	display: flex;
 	justify-content: center;
