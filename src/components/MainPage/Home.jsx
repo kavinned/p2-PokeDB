@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import PokeContainer from "./PokeContainer";
 import Pagination from "./Pagination";
 import Loader from "./Loader";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Home() {
 	const [pokemonData, setData] = useState([]);
@@ -12,22 +13,40 @@ export default function Home() {
 	const [prevURL, setPrev] = useState("");
 	const [nextURL, setNext] = useState("");
 	const [count, setCount] = useState(1);
-	const [search, setSearch] = useState("");
-	const [filter, setFilter] = useState("");
 	const [disableReset, setDisableReset] = useState(true);
 	const [searchError, setSearchError] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState();
+
+	const navigate = useNavigate();
+
+	const { pokeType } = useParams();
+	const { searchedPokemon } = useParams();
+
+	useEffect(() => {
+		(searchedPokemon || pokeType) && setDisableReset(false);
+	}, [searchedPokemon, pokeType]);
 
 	useEffect(() => {
 		async function fetchPokemon() {
 			setIsLoading(true);
-			let url = URL;
-			if (filter) {
-				url = "https://pokeapi.co/api/v2/pokemon?limit=1302&offset=0";
+			let url = "";
+
+			if (pokeType) {
+				url = `https://pokeapi.co/api/v2/type/${pokeType}`;
+			} else {
+				url = URL;
 			}
+
 			const res = await fetch(url);
 			const data = await res.json();
-			const result = data.results;
+			let result = "";
+
+			if (pokeType) {
+				result = data.pokemon.map((pokemon) => pokemon.pokemon);
+			} else {
+				result = data.results;
+			}
+
 			setNext(data.next);
 			setPrev(data.previous);
 			const pokemonInfo = await Promise.all(
@@ -38,65 +57,51 @@ export default function Home() {
 					return res.json();
 				})
 			);
-			setIsLoading(false);
-			if (!search && !filter) {
+			if (!searchedPokemon) {
 				setData(pokemonInfo);
 			}
+			setIsLoading(false);
 		}
 		fetchPokemon();
 
-		async function fetchPokemonByType(type) {
-			setData([]);
-			const res = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
-			const data = await res.json();
-			const pokemonList =
-				data.pokemon?.map((pokemon) => pokemon.pokemon.name) || [];
-			const pokemonInfo = await Promise.all(
-				pokemonList.map(async (name) => {
-					const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-					return res.json();
-				})
-			);
-			!search && setData(pokemonInfo);
-		}
-		fetchPokemonByType(filter);
-
 		async function searchPokemon() {
-			if (search !== "") {
-				const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${search}`);
+			setIsLoading(true);
+			if (searchedPokemon) {
+				const res = await fetch(
+					`https://pokeapi.co/api/v2/pokemon/${searchedPokemon}`
+				);
 				if (res.ok) {
 					const data = await res.json();
 					setData([data]);
 					setSearchError("");
 				} else {
 					setSearchError("There is no such Pokémon");
-					setIsLoading(false);
 				}
+				setIsLoading(false);
 			}
 		}
 		searchPokemon();
-	}, [URL, filter, search]);
-	useEffect(() => {}, [search]);
+	}, [URL, pokeType, searchedPokemon]);
 
 	const handleClick = (searchTerm) => {
-		setSearch(searchTerm);
 		setData([]);
 		setDisableReset(false);
+		setIsLoading(false);
+		navigate(`/home/search/${searchTerm}`);
 	};
 
 	const handleFilter = (type) => {
-		setFilter(type);
-		setSearch("");
 		setData([]);
 		setDisableReset(false);
+		setIsLoading(false);
+		navigate(`/home/filter/${type}`);
 	};
 
 	const Reset = () => {
-		setSearch("");
-		setFilter("");
 		setData([]);
 		setSearchError("");
 		setDisableReset(true);
+		navigate("/home");
 	};
 
 	const nextPage = () => {
@@ -134,7 +139,7 @@ export default function Home() {
 					nextPage={nextPage}
 					prevPage={prevPage}
 					count={count}
-					filter={filter}
+					filter={pokeType}
 				/>
 			)}
 		</div>

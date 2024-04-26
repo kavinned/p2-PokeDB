@@ -11,6 +11,8 @@ function App() {
 			<Route path="/home" element={<Home />} />
 			<Route path="/pokemon/:name" element={<PokeDetails />} />
 			<Route path="/favorites" element={<Favorites />} />
+			<Route path="/home/filter/:pokeType" element={<Home />} />
+			<Route path="/home/search/:searchedPokemon" element={<Home />} />
 		</Routes>
 	);
 }
