@@ -5,7 +5,6 @@ export default function NavBar({
 	handleClick,
 	Reset,
 	handleFilter,
-	isLoading,
 	disableReset,
 }) {
 	const [input, setInput] = useState("");
@@ -64,10 +63,9 @@ export default function NavBar({
 							handleSubmit();
 						}
 					}}
-					disabled={isLoading}
 				/>
 				<button
-					disabled={isLoading || disableSearch}
+					disabled={disableSearch}
 					className="search"
 					type="button"
 					onClick={handleSubmit}
@@ -77,11 +75,7 @@ export default function NavBar({
 				<span
 					style={{ borderLeft: "3px solid rgba(0,0,0,0.5)", height: "20px" }}
 				></span>
-				<button
-					disabled={isLoading || disableReset}
-					className="reset"
-					onClick={handleReset}
-				>
+				<button disabled={disableReset} className="reset" onClick={handleReset}>
 					Reset
 				</button>
 				<span
@@ -89,7 +83,6 @@ export default function NavBar({
 				></span>
 				<label htmlFor="type-filter">Filter by Type:</label>
 				<select
-					disabled={isLoading}
 					onChange={handleChange}
 					name="filter"
 					id="type-filter"
