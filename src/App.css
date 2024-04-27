@@ -191,6 +191,10 @@ select:active,
 	align-items: center;
 }
 
+option {
+	text-transform: capitalize;
+}
+
 .searchfield {
 	display: flex;
 	justify-content: center;

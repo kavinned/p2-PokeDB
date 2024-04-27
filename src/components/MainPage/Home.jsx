@@ -7,26 +7,28 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function Home() {
 	const [pokemonData, setData] = useState([]);
-	const [URL, setURL] = useState(
-		"https://pokeapi.co/api/v2/pokemon?limit=9&offset=0"
-	);
-	const [prevURL, setPrev] = useState("");
-	const [nextURL, setNext] = useState("");
 	const [count, setCount] = useState(1);
 	const [disableReset, setDisableReset] = useState(true);
 	const [searchError, setSearchError] = useState("");
 	const [isLoading, setIsLoading] = useState();
+	const [offset, setOffset] = useState(0);
 
 	const navigate = useNavigate();
 
 	const { pokeType } = useParams();
 	const { searchedPokemon } = useParams();
+	const { pageNum } = useParams();
 
 	useEffect(() => {
 		(searchedPokemon || pokeType) && setDisableReset(false);
 	}, [searchedPokemon, pokeType]);
 
 	useEffect(() => {
+		if (pageNum > 1) {
+			setCount(parseInt(pageNum));
+		} else if (pageNum === 1) {
+			setCount(1);
+		}
 		async function fetchPokemon() {
 			setIsLoading(true);
 			let url = "";
@@ -34,7 +36,9 @@ export default function Home() {
 			if (pokeType) {
 				url = `https://pokeapi.co/api/v2/type/${pokeType}`;
 			} else {
-				url = URL;
+				url = `https://pokeapi.co/api/v2/pokemon?limit=9&offset=${
+					(pageNum - 1) * 9
+				}`;
 			}
 
 			const res = await fetch(url);
@@ -47,8 +51,6 @@ export default function Home() {
 				result = data.results;
 			}
 
-			setNext(data.next);
-			setPrev(data.previous);
 			const pokemonInfo = await Promise.all(
 				result.map(async (pokemon) => {
 					const res = await fetch(
@@ -81,7 +83,7 @@ export default function Home() {
 			}
 		}
 		searchPokemon();
-	}, [URL, pokeType, searchedPokemon]);
+	}, [offset, pokeType, searchedPokemon, pageNum, count]);
 
 	const handleClick = (searchTerm) => {
 		setData([]);
@@ -97,24 +99,25 @@ export default function Home() {
 		navigate(`/home/filter/${type}`);
 	};
 
-	const Reset = () => {
+	const reset = () => {
 		setData([]);
 		setSearchError("");
 		setDisableReset(true);
-		navigate("/home");
+		navigate("/home/1");
 	};
 
 	const nextPage = () => {
-		setURL(nextURL);
+		setOffset(offset + 9);
 		setData([]);
-		setCount(count + 1);
+		setCount(count - 1);
+		navigate(`/home/${count + 1}`);
 	};
 
 	const prevPage = () => {
-		setURL(prevURL);
-
+		setOffset(offset - 9);
 		setData([]);
 		setCount(count - 1);
+		navigate(`/home/${count - 1}`);
 	};
 
 	return (
@@ -122,7 +125,7 @@ export default function Home() {
 			{isLoading && <Loader />}
 			<NavBar
 				handleClick={handleClick}
-				Reset={Reset}
+				reset={reset}
 				handleFilter={handleFilter}
 				disableReset={disableReset}
 				isLoading={isLoading}

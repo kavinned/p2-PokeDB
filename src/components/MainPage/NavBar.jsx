@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function NavBar({
 	handleClick,
-	Reset,
+	reset,
 	handleFilter,
 	disableReset,
 	isLoading,
@@ -41,14 +41,14 @@ export default function NavBar({
 	};
 
 	const handleReset = () => {
-		Reset();
+		reset();
 		setInput("");
 		setSelected("select an option");
 	};
 
 	return (
 		<nav className="mainnav">
-			<Link to="/">
+			<Link to="/home/1">
 				<p>PokéDB</p>
 			</Link>
 			<div className="searchfield">
