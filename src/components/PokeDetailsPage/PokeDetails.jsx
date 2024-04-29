@@ -54,10 +54,37 @@ export default function PokeDetails() {
 					<>
 						<h1>{`${pokemon.name} #${pokemon.id}`}</h1>
 						<img
+							className="main-img"
 							height="200px"
 							src={pokemon?.sprites?.other["official-artwork"].front_default}
 							alt={pokemon.name}
 						/>
+						<figure>
+							<img
+								className="other-sprites"
+								height="100px"
+								src={pokemon?.sprites?.front_default}
+								alt={pokemon.name}
+							/>
+							<img
+								className="other-sprites"
+								height="100px"
+								src={pokemon?.sprites?.back_default}
+								alt={pokemon.name}
+							/>
+							<img
+								className="other-sprites"
+								height="100px"
+								src={pokemon?.sprites?.front_shiny}
+								alt={pokemon.name}
+							/>
+							<img
+								className="other-sprites"
+								height="100px"
+								src={pokemon?.sprites?.back_shiny}
+								alt={pokemon.name}
+							/>
+						</figure>
 						<div className="info">
 							<section className="types">
 								<h2>Types</h2>
