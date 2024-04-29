@@ -52,7 +52,7 @@ export default function PokeDetails() {
 					<div className="loader2"></div>
 				) : (
 					<>
-						<h1>{pokemon.name}</h1>
+						<h1>{`${pokemon.name} #${pokemon.id}`}</h1>
 						<img
 							height="200px"
 							src={pokemon?.sprites?.other["official-artwork"].front_default}
