@@ -6,6 +6,26 @@ Additionally, users are able to compile a list of their favorite Pokémon.
 
 ## Screenshots
 
+###### Home
+
+<img src="./public/home.png">
+
+###### Search
+
+<img src="./public/search.png">
+
+###### Filter
+
+<img src="./public/filter.png">
+
+###### Details
+
+<img src="./public/details.png">
+
+###### Favorites
+
+<img src="./public/favorites.png">
+
 ## Technologies
 
 This app was built using **HTML, CSS, ReactJS**
