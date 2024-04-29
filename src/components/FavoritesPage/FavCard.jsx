@@ -24,6 +24,7 @@ export default function FavCard({ favorite, handleDelete }) {
 						height="150px"
 						src={favorite.fields.sprite}
 						alt={favorite.fields.name}
+						loading="lazy"
 					/>
 				</Link>
 				<h2 className="addFavName">{favorite.fields.name}</h2>

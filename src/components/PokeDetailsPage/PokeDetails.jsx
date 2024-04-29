@@ -43,7 +43,6 @@ export default function PokeDetails() {
 			}, 2000);
 		}
 	}
-
 	return (
 		<div className="detail-container">
 			<SecondaryNavBar title="PokéDetails" />
@@ -58,6 +57,7 @@ export default function PokeDetails() {
 							height="200px"
 							src={pokemon?.sprites?.other["official-artwork"].front_default}
 							alt={pokemon.name}
+							loading="lazy"
 						/>
 						<figure>
 							<img
@@ -65,24 +65,28 @@ export default function PokeDetails() {
 								height="100px"
 								src={pokemon?.sprites?.front_default}
 								alt={pokemon.name}
+								loading="lazy"
 							/>
 							<img
 								className="other-sprites"
 								height="100px"
 								src={pokemon?.sprites?.back_default}
 								alt={pokemon.name}
+								loading="lazy"
 							/>
 							<img
 								className="other-sprites"
 								height="100px"
 								src={pokemon?.sprites?.front_shiny}
 								alt={pokemon.name}
+								loading="lazy"
 							/>
 							<img
 								className="other-sprites"
 								height="100px"
 								src={pokemon?.sprites?.back_shiny}
 								alt={pokemon.name}
+								loading="lazy"
 							/>
 						</figure>
 						<div className="info">
