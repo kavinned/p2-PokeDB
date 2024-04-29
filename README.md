@@ -1,9 +1,5 @@
 # PokéDB
-This app serves as a Pokédex/Pokémon database.
-<br/>
-Users can explore all existing Pokémon by pagination or by searching for a Pokémon by name or filtering by type. 
-<br/>
-Users can also access information about each Pokémon if required. 
+This app serves as a Pokédex/Pokémon database where users can explore all existing Pokémon by pagination or by searching for a Pokémon by name or filtering by type and access information about each Pokémon if required. 
 <br/>
 Additionally, users are able to compile a list of their favorite Pokémon.
 ## Screenshots
