@@ -50,7 +50,6 @@ export default function Home() {
 			} else {
 				result = data.results;
 			}
-
 			const pokemonInfo = await Promise.all(
 				result.map(async (pokemon) => {
 					const res = await fetch(
@@ -69,15 +68,29 @@ export default function Home() {
 		async function searchPokemon() {
 			setIsLoading(true);
 			if (searchedPokemon) {
+				setData([]);
 				const res = await fetch(
-					`https://pokeapi.co/api/v2/pokemon/${searchedPokemon}`
+					`https://pokeapi.co/api/v2/pokemon?limit=10000`
 				);
 				if (res.ok) {
 					const data = await res.json();
-					setData([data]);
-					setSearchError("");
+					const results = data.results;
+					const filteredResults = results.filter((pokemon) => {
+						return pokemon.name
+							.toLowerCase()
+							.includes(searchedPokemon.toLowerCase());
+					});
+					const pokemonInfo = await Promise.all(
+						filteredResults.map(async (pokemon) => {
+							const res = await fetch(
+								`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+							);
+							return res.json();
+						})
+					);
+					setData(pokemonInfo);
 				} else {
-					setSearchError("There is no such Pokémon");
+					setSearchError("There is no such Pokemon");
 				}
 				setIsLoading(false);
 			}
