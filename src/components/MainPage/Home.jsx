@@ -72,31 +72,32 @@ export default function Home() {
 				const res = await fetch(
 					`https://pokeapi.co/api/v2/pokemon?limit=10000`
 				);
-				if (res.ok) {
-					const data = await res.json();
-					const results = data.results;
-					const filteredResults = results.filter((pokemon) => {
-						return pokemon.name
-							.toLowerCase()
-							.includes(searchedPokemon.toLowerCase());
-					});
-					const pokemonInfo = await Promise.all(
-						filteredResults.map(async (pokemon) => {
-							const res = await fetch(
-								`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-							);
-							return res.json();
-						})
-					);
-					setData(pokemonInfo);
-				} else {
-					setSearchError("There is no such Pokemon");
+
+				const data = await res.json();
+				const results = data.results;
+				const filteredResults = results.filter((pokemon) => {
+					return pokemon.name
+						.toLowerCase()
+						.includes(searchedPokemon.toLowerCase());
+				});
+				const pokemonInfo = await Promise.all(
+					filteredResults.map(async (pokemon) => {
+						const res = await fetch(
+							`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+						);
+						console.log(res);
+						return res.json();
+					})
+				);
+				if (pokemonInfo.length === 0) {
+					setSearchError("No Pokémon found");
 				}
+				setData(pokemonInfo);
 				setIsLoading(false);
 			}
 		}
 		searchPokemon();
-	}, [offset, pokeType, searchedPokemon, pageNum, count]);
+	}, [searchedPokemon, pokeType, pageNum]);
 
 	const handleClick = (searchTerm) => {
 		setData([]);
